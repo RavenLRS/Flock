@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP AITHINKER-RA02-433
+D Low power long range transceiver module, SPI and parallel interface, 433 MHz, spreading factor 6 to12, bandwith 7.8 to 500kHz, -111 to -148 dBm, SMD-16, DIP-16
+K Low power long range transceiver module
+F http://www.hoperf.com/upload/rf/RFM95_96_97_98W.pdf
+$ENDCMP
+#
+#End Doc Library

@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name FlockOne)(type Legacy)(uri ${KIPRJMOD}/FlockOne.lib)(options "")(descr ""))
+)
