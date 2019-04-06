@@ -41,7 +41,9 @@ ready to handle responses to the commands that have it.
 
 Request: `empty`
 
-Response: ```struct {
+Response:
+```
+struct {
     uint8_t flock_version;
     char flock_device_name[12];
     uint8_t flock_device_version[3];
@@ -52,8 +54,8 @@ Response: ```struct {
     uint64_t flock_radio_min_freq;
     uint64_t flock_radio_max_freq;
     uint64_t flock_radio_default_freq;
-}```
-
+}
+```
 
 Where:
 
@@ -97,10 +99,13 @@ Response: `empty`
 
 Request: `empty`
 
-Response: ```typedef struct {
+Response:
+```
+typedef struct {
     uint8_t type;
     char name[17];
-} flock_hostinfo_t```
+} flock_hostinfo_t
+```
 
 Where:
 
@@ -116,7 +121,7 @@ length of 16 characters.
 
 ### 0x05 - Set host info
 
-Request: ```struct flock_hostinfo_t hostinfo```
+Request: `struct flock_hostinfo_t hostinfo`
 
 Where:
 
@@ -129,14 +134,17 @@ Response: `empty`
 This command should be called periodically by the host to tell
 the device its current coordinates, altitude, heading and speed.
 
-Request: ```typedef struct {
+Request:
+```
+typedef struct {
     int32_t latitude;
     int32_t longitude;
     uint16_t altitude;
     uint16_t ground_speed;
     int16_t vertical_speed;
     uint16_t heading;
-} flock_posvel_t```
+} flock_posvel_t
+```
 
 Where:
 
@@ -153,7 +161,7 @@ Response: `empty`
 
 ### 0x07 - Broadcast data
 
-Request: ```uint8_t data[L]```
+Request: `uint8_t data[L]`
 
 Where:
 
@@ -165,16 +173,19 @@ Response: `empty`
 
 ### 0x08 - Send data
 
-Request: ```struct {
+Request:
+```
+struct {
     flock_device_addr_t dest_addr;
     uint8_t data[L];
-}```
+}
+```
 
 Where:
 
-`dest_addr`: Destination address for the data. Devices not 
+- `dest_addr`: Destination address for the data. Devices not
 matching this address will ignore the data.
-`data`: Arbitrary data to be broadcasted. The maximum length of 
+- `data`: Arbitrary data to be broadcasted. The maximum length of
 the payload is 48 bytes. Payloads larger than that will be
 silently ignored.
 
@@ -184,42 +195,51 @@ Response: `empty`
 
 ### 0x80 - Received remote posvel
 
-Request: ```struct {
+Request:
+```
+struct {
     flock_device_addr_t from_addr;
     flock_posvel_t posvel;
-}```
+}
+```
 
 Where:
 
-`from_addr`: Address of the device sending its posvel
-`posvel`: flock_posvel_t for the sending device.
+- `from_addr`: Address of the device sending its posvel
+- `posvel`: flock_posvel_t for the sending device.
 
 Response: `empty`
 
 ### 0x81 - Received broadcast data
 
-Request: ```struct {
+Request:
+```
+struct {
     flock_device_addr_t from_addr;
     uint8_t data[L];
-}```
+}
+```
 
 Where:
 
-`from_addr`: Source address for device sending the data.
-`data`: Arbitrary data sent by the device. Host devices should be ready to
+- `from_addr`: Source address for device sending the data.
+- `data`: Arbitrary data sent by the device. Host devices should be ready to
 handle payloads up to 64 bytes.
 
 Response: `empty`
 
 ### 0x82 - Received sent data
 
-Request: ```struct {
+Request:
+```
+struct {
     flock_device_addr_t from_addr;
     uint8_t data[L];
-}```
+}
+```
 
-`from_addr`: Source address for device sending the data.
-`data`: Arbitrary data sent by the device. Host devices should be ready to
+- `from_addr`: Source address for device sending the data.
+- `data`: Arbitrary data sent by the device. Host devices should be ready to
 handle payloads up to 64 bytes.
 
 Response: `empty`
