@@ -40,7 +40,7 @@ connector, so if you plan to use an antenna with a different
 connector (e.g. SMA) you should buy a pigtail too. Make sure to 
 pick an ommnidirectional one. These are some examples:
 
-- [433MHz Spring Antenna](ant1) (1pc, \~$0.58/pc)
+- [433MHz Spring Antenna][ant1] (1pc, \~$0.58/pc)
 
 
 [1]: http://s.click.aliexpress.com/e/bBTYCsGo
@@ -49,5 +49,5 @@ pick an ommnidirectional one. These are some examples:
 [4]: http://s.click.aliexpress.com/e/jFzlBWo
 [5]: http://s.click.aliexpress.com/e/bK4Lefbi
 [6]: http://s.click.aliexpress.com/e/bfQQhzdW
-[FlockOne.zip]: FlockOne/gerbers/FlockOne.zip
+[FlockOne.zip]: gerbers/FlockOne.zip
 [ant1]: https://www.aliexpress.com/item/433MHz-spring-antenna-3dBi-wireless-module-digital-transmit-antenna-IPEX-U-FL-interface-for-Rola-Module/32904294792.html
