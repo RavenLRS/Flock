@@ -12,25 +12,25 @@ to use a fine tip, tweezers and copious amounts of flux.
 
 ### BOM
 
-- 1x [STM32F030F4P6](1) (10pcs, ~$0.35/pc)
-- 1x [Ai-Thinker Ra-02](2) (1pc, ~$2.65/pc)
-- 1x [100 nF 0603 Capacitor](3) (**\***) (100pcs, $0.01/pc)
-- 2x [4.7 uF 0603 Capacitor](3) (**\***) (100pcs, $0.01/pc)
-- 2x [10 kOhm 0603 Resistor](4) (**\***) (100pcs, $0.01/pc)
-- 1x [330 Ohm 0603 Resistor](4) (**\***) (100pcs, $0.01/pc)
-- 1x [MIC5219-3.3BM5](5) (10pcs, $0.09/pc)
-- 1x [0603 LED](6) (**\***) (100pcs, $0.01/pc)
+- 1x [STM32F030F4P6][1] (10pcs, \~$0.35/pc)
+- 1x [Ai-Thinker Ra-02][2] (1pc, \~$2.65/pc)
+- 1x [100 nF 0603 Capacitor][3] (**\***) (100pcs, $0.01/pc)
+- 2x [4.7 uF 0603 Capacitor][3] (**\***) (100pcs, $0.01/pc)
+- 2x [10 kOhm 0603 Resistor][4] (**\***) (100pcs, $0.01/pc)
+- 1x [330 Ohm 0603 Resistor][4] (**\***) (100pcs, $0.01/pc)
+- 1x [MIC5219-3.3BM5][5] (10pcs, $0.09/pc)
+- 1x [0603 LED][6] (**\***) (100pcs, $0.01/pc)
 
 (**\***) Listing with multiple values, select the right one!
 
 ### PCB
 
-Use the FlockOne.zip[FlockOne.zip] file to order the PCB from your
+Use the [FlockOne.zip][FlockOne.zip] file to order the PCB from your
 fabrication service of choice. Some popular manufacturers for
 hobbyists:
 
-- JLCPCB: ~$7 for 10 boards + shipping (~$0.70/pc)
-- OshPark: ~$2.85 for 3 bords + shipping (~$0.95/pc)
+- JLCPCB: ~$7 for 10 boards + shipping (\~$0.70/pc)
+- OshPark: ~$2.85 for 3 bords + shipping (\~$0.95/pc)
 
 ### Antenna
 
@@ -40,7 +40,7 @@ connector, so if you plan to use an antenna with a different
 connector (e.g. SMA) you should buy a pigtail too. Make sure to 
 pick an ommnidirectional one. These are some examples:
 
-- [433MHz Spring Antenna](ant1) (1pc, ~$0.58/pc)
+- [433MHz Spring Antenna](ant1) (1pc, \~$0.58/pc)
 
 
 [1]: http://s.click.aliexpress.com/e/bBTYCsGo
