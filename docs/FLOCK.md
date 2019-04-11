@@ -1,25 +1,17 @@
-# Flock Serial Protocol
+# Flock Protocol
 
 This document describes version 1 of the protocol used by a
 FLOCK device to communicate with its host (usually a flight
-controller) via serial communication.
+controller). Flock supports several transports, see other
+documents named *FLOCK-TRANSPORT* in this directory.
 
-## UART parameters
 
-Protocol is based on full duplex uart at 3.3v logic level, 8 bits,
-no parity and 1 stop bit at 115200bps, also known as 115200/8-N-1.
+## Packet structure
 
-## General command structure
-
-Each frame starts with the "\ffF" (0xff, 0x46) header
-followed by:
-
-- uint8_t: Packet length, not counting the 2 byte header.
 - uint8_t: Command identifier.
 - A payload which depends on the command.
-- Finally, a CRC8 checksum covering all packet except the using
-the 0xD5 polynomial and 0 as the initial value (also known as CRC
-DVB S2).
+
+This structure is then wrapped by one of the transports.
 
 Most commands are initiated by the host. The host sends a command to the
 device with an identifier X and, depending on the command,
@@ -50,6 +42,7 @@ struct {
     typedef struct {
             uint8_t flock_device_addr[6];
     } flock_device_addr_t;
+    uint32_t flock_host_posvel_interval_ms;
     uint8_t flock_radio_type;
     uint64_t flock_radio_min_freq;
     uint64_t flock_radio_max_freq;
@@ -65,6 +58,9 @@ Where:
 each device.
 - `flock_device_addr`: Unique (or pseudo-unique) device identifier. Devices might use a permanent ID generated during fabrication (e.g. a Chip ID or a MAC address), but they can also use a PRNG to
 generate this an address and store it in a eeprom.
+- `flock_host_posvel_interval_ms`: The target interval for the host to send its posvel to the
+FLOCK device. If the host doesn't provide an update without 3x this interval, the device will
+interpret it as the host not knowing its position anymore.
 - `flock_radio_type`: Defines the radio type. Valid values are:
     - 1: LoRa sub-GHz (i.e. SX127x or SX126X)
     - 2: LoRa 2G4 (SX128X)
@@ -103,17 +99,25 @@ Response:
 ```
 typedef struct {
     uint8_t type;
+    uint16_t flags;
     char name[17];
 } flock_hostinfo_t
 ```
 
 Where:
 
-- `type`: Host type, where the following values are valid:
-  - 1: Remote controlled quadcopter.
-  - 2: Remote controlled airplane.
-  - 3: Remote controlled car.
-  - 4: Remote controlled boat.
+- `type`: Vehicle type, where the following values are valid:
+    - 1: Airplane.
+    - 2: Boat.
+    - 3: Flying wing.
+    - 4: Helicopter.
+    - 5: Multirotor
+    - 6: Car or other type of land vehicle.
+- `flags`: Host flags as a bitfield, with the following defined ones:
+  - 1 << 0: Vehicle can notify its pilot (human or not) about other vehicles.
+  - 1 << 1: Vehicle has autopilot capabilities.
+  - 1 << 2: Vehicle has automatic collision avoidance.
+  - 1 << 3: Vehicle is manned.
 - `name`: Null terminated arbitrary string representing the pilot
 or craft name. Other FLOCK nodes will see this name. Note that the payload
 length is always 17 and must be null terminated, resulting on a maximum name
@@ -155,7 +159,7 @@ Where:
 - `ground_speed`: Ground speed in m/s * 10
 - `vertical_speed`: Vertical speed in m/s * 10. Positive values
 represent speeds in the up direction.
-- `heading`: Heading as radians * 10000, normalized to the [0, 2*pi) range.
+- `heading`: Heading as radians * 10000, normalized to the [0, 2\*pi) range.
 
 Response: `empty`
 
@@ -165,7 +169,7 @@ Request: `uint8_t data[L]`
 
 Where:
 
-`data`: Arbitrary data to be broadcasted. The maximum length of 
+`data`: Arbitrary data to be broadcasted. The maximum length of
 the payload is 55 bytes. Payloads larger than that will be
 silently ignored.
 
