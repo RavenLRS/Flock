@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:FlockOne-cache
-EELAYER 26 0
+EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -300,7 +300,7 @@ Text GLabel 6650 2600 0    50   Input ~ 0
 DIO1
 Text GLabel 6650 2500 0    50   Input ~ 0
 DIO0
-Text GLabel 3900 3050 0    50   Input ~ 0
+Text GLabel 4900 2550 2    50   Input ~ 0
 DIO0
 Text GLabel 3900 3150 0    50   Input ~ 0
 DIO1
@@ -377,7 +377,7 @@ Wire Wire Line
 NoConn ~ 7650 2800
 Text GLabel 6650 2700 0    50   Input ~ 0
 DIO2
-Text GLabel 4900 2550 2    50   Input ~ 0
+Text GLabel 3900 3050 0    50   Input ~ 0
 DIO5
 Wire Wire Line
 	3700 3850 3700 4000
