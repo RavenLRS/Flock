@@ -1,9 +1,15 @@
 # Flock Protocol
 
+Flock is a broadcast oriented peer to peer protocol for
+exchanging information across radio links. Each node
+in a flock network is called a bird.
+
 This document describes version 1 of the protocol used by a
 FLOCK device to communicate with its host (usually a flight
-controller). Flock supports several transports, see other
-documents named *FLOCK-TRANSPORT* in this directory.
+controller).
+
+Flock supports several transports for device<->host communication,
+see other documents named *FLOCK-TRANSPORT\** in this directory.
 
 
 ## Packet structure
@@ -42,7 +48,7 @@ struct {
     typedef struct {
             uint8_t flock_device_addr[6];
     } flock_device_addr_t;
-    uint32_t flock_host_posvel_interval_ms;
+    uint16_t flock_host_posvel_interval_ms;
     uint8_t flock_radio_type;
     uint64_t flock_radio_min_freq;
     uint64_t flock_radio_max_freq;
@@ -91,7 +97,7 @@ listening to and broadcasting messages.
 
 Response: `empty`
 
-### 0x04 - Get host info
+### 0x04 - Get host bird info
 
 Request: `empty`
 
@@ -101,12 +107,13 @@ typedef struct {
     uint8_t type;
     uint16_t flags;
     char name[17];
-} flock_hostinfo_t
+} flock_birdinfo_t
 ```
 
 Where:
 
-- `type`: Vehicle type, where the following values are valid:
+- `type`: Bird type, where the following values are valid:
+    - 0: Unknown.
     - 1: Airplane.
     - 2: Boat.
     - 3: Flying wing.
@@ -114,22 +121,22 @@ Where:
     - 5: Multirotor
     - 6: Car or other type of land vehicle.
 - `flags`: Host flags as a bitfield, with the following defined ones:
-  - 1 << 0: Vehicle can notify its pilot (human or not) about other vehicles.
-  - 1 << 1: Vehicle has autopilot capabilities.
-  - 1 << 2: Vehicle has automatic collision avoidance.
-  - 1 << 3: Vehicle is manned.
+  - 1 << 0: Bird can notify its pilot (human or not) about other birds.
+  - 1 << 1: Bird has autopilot capabilities.
+  - 1 << 2: Bird has automatic collision avoidance.
+  - 1 << 3: Bird is manned.
 - `name`: Null terminated arbitrary string representing the pilot
 or craft name. Other FLOCK nodes will see this name. Note that the payload
 length is always 17 and must be null terminated, resulting on a maximum name
 length of 16 characters.
 
-### 0x05 - Set host info
+### 0x05 - Set host bird info
 
-Request: `struct flock_hostinfo_t hostinfo`
+Request: `struct flock_birdinfo_t info`
 
 Where:
 
-- `hostinfo`: Host information, as defined in `Get host info`.
+- `hostinfo`: Host information, as defined in `Get host bird info`.
 
 Response: `empty`
 
@@ -155,7 +162,7 @@ Where:
 - `latitude`: Latitude mapped from [-90, 90] to [0, 2^32-1]
 - `longitude`: Longitude mapped from [-180, 180] to [0, 2^32-1]
 - `altitude`: Altitude above Mean Sea Level in meters, with a
-+10,000m offset (e.g. 0m above MSL is represented as 10,000)
++1,000m offset (e.g. 0m above MSL is represented as 1,000)
 - `ground_speed`: Ground speed in m/s * 10
 - `vertical_speed`: Vertical speed in m/s * 10. Positive values
 represent speeds in the up direction.
@@ -197,7 +204,32 @@ Response: `empty`
 
 ## Device initiated commands
 
-### 0x80 - Received remote posvel
+### 0x80 - Received bird info
+
+The flock device will send this command to its host when it receives
+a new bird info message from the network, which includes the bird name,
+type, etc..
+
+Request:
+```
+struct {
+    flock_device_addr_t from_addr;
+    flock_birdinfo_t info;
+}
+```
+
+Where:
+
+- `from_addr`: Address of the device sending its posvel
+- `info`: flock_birdinfo_t for the sending device.
+
+Response: `empty`
+
+
+### 0x81 - Received bird posvel
+
+The flock device will send this command to its host when it receives
+a new posvel message from the network.
 
 Request:
 ```
@@ -214,7 +246,7 @@ Where:
 
 Response: `empty`
 
-### 0x81 - Received broadcast data
+### 0x82 - Received broadcasted data
 
 Request:
 ```
@@ -232,7 +264,7 @@ handle payloads up to 64 bytes.
 
 Response: `empty`
 
-### 0x82 - Received sent data
+### 0x83 - Received sent data
 
 Request:
 ```
