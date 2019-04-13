@@ -166,7 +166,7 @@ Where:
 - `ground_speed`: Ground speed in m/s * 10
 - `vertical_speed`: Vertical speed in m/s * 10. Positive values
 represent speeds in the up direction.
-- `heading`: Heading as radians * 10000, normalized to the [0, 2\*pi) range.
+- `heading`: Heading normalized to [0, 2\*pi\), then mapped to [0, 2^16-1]
 
 Response: `empty`
 
