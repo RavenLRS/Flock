@@ -95,7 +95,13 @@ Where:
 - `flock_radio_current_freq`: Frequency used by the device for
 listening to and broadcasting messages.
 
-Response: `empty`
+Response: ```uint64_t flock_radio_current_freq```
+
+Where:
+- `flock_radio_current_freq`: Frequency used by the device for listening to
+and broadcasting messages after the requested change was performed. If an
+invalid frequency was requested, it will return the previously set frequency.
+
 
 ### 0x04 - Get host bird info
 
