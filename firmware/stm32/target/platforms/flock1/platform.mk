@@ -1,0 +1,1 @@
+DEVICE = stm32f030f4px

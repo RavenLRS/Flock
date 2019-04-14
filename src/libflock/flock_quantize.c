@@ -1,7 +1,8 @@
 #include <math.h>
 
-#include "quantize.h"
+#include "flock_quantize.h"
 
+#if 0
 uint32_t flock_quantize_latf(float lat)
 {
     return roundf(ldexpf(lat / 180.0f + 0.5f, 32));
@@ -93,3 +94,4 @@ int16_t _flock_dequantize_angle_degfp(uint16_t angle, float mult)
 {
     return roundf(angle * mult);
 }
+#endif
