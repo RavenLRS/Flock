@@ -144,11 +144,6 @@
 #define SX127X_IMAGE_CAL_START (1 << 6)
 #define SX127X_IMAGE_CAL_RUNNING (1 << 5)
 
-#if defined(__SOFTFP__) && __SOFTFP__ == 1
-// lrintf() uses almost 1K of flash with SOFTFP
-#define lrintf(x) (x)
-#endif
-
 enum
 {
     DIO0_TRIGGER_RX_DONE = 1,
