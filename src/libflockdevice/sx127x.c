@@ -62,6 +62,7 @@
 #define REG_LORA_FIFO_TX_BASE_ADDR 0x0e
 #define REG_LORA_FIFO_RX_BASE_ADDR 0x0f
 #define REG_LORA_FIFO_RX_CURRENT_ADDR 0x10
+#define REG_LORA_IRQ_FLAGS_MASK 0x11
 #define REG_LORA_IRQ_FLAGS 0x12
 #define REG_LORA_RX_NB_BYTES 0x13
 #define REG_LORA_PKT_SNR_VALUE 0x19
@@ -419,6 +420,30 @@ void sx127x_calibrate(sx127x_t *sx127x, unsigned long freq)
     {
         flock_millis_delay(1);
     }
+}
+
+uint32_t sx127x_random(sx127x_t *sx127x)
+{
+
+    sx127x_set_op_mode(sx127x, SX127X_OP_MODE_LORA);
+
+    uint8_t irq_mask = sx127x_read_reg(sx127x, REG_LORA_IRQ_FLAGS_MASK);
+    sx127x_write_reg(sx127x, REG_LORA_IRQ_FLAGS_MASK, 0xFF);
+
+    sx127x_enable_continous_rx(sx127x);
+
+    uint32_t r = 0;
+    for (unsigned ii = 0; ii < sizeof(r) * 8; ii++)
+    {
+        flock_millis_delay(1);
+        // Take one bit per reading
+        uint8_t rssi = sx127x_read_reg(sx127x, REG_LORA_RSSI_WIDEBAND);
+        r |= (((uint32_t)rssi) & 1) << ii;
+    }
+
+    sx127x_write_reg(sx127x, REG_LORA_IRQ_FLAGS_MASK, irq_mask);
+
+    return r;
 }
 
 void sx127x_set_payload_size(sx127x_t *sx127x, uint8_t size)

@@ -109,6 +109,8 @@ void sx127x_set_frequency(sx127x_t *sx127x, unsigned long freq, int error);
 // Should be called with center-ish frequency
 void sx127x_calibrate(sx127x_t *sx127x, unsigned long freq);
 
+uint32_t sx127x_random(sx127x_t *sx127x);
+
 void sx127x_set_payload_size(sx127x_t *sx127x, uint8_t size);
 void sx127x_set_sync_word(sx127x_t *sx127x, int16_t sw);
 

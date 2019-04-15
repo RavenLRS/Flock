@@ -34,6 +34,7 @@ typedef struct flock_s
     flock_bird_info_t host_info;
     flock_posvel_t host_posvel;
     unsigned host_posvel_updated_ms;
+    flock_prng_t prng;
 } flock_t;
 
 bool flock_init(flock_t *fl, const flock_config_t *cfg);

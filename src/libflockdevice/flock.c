@@ -19,8 +19,13 @@ bool flock_init(flock_t *fl, const flock_config_t *cfg)
     // to 4 before we switch to LoRa mode.
     //sx127x_set_op_mode(&fl->sx127x, SX127X_OP_MODE_FSK);
     sx127x_set_clkout_div(&fl->sx127x, SX127X_CLKOUT_DIV_4);
+
+    // Initialize PRNG
+    flock_prng_seed(&fl->prng, sx127x_random(&fl->sx127x));
+
     sx127x_set_op_mode(&fl->sx127x, SX127X_OP_MODE_LORA);
     sx127x_idle(&fl->sx127x);
+
     flock_set_frequency(fl, flock_band_get_default_freq(cfg->band));
     return true;
 }
@@ -39,6 +44,7 @@ bool flock_set_frequency(flock_t *fl, uint64_t freq)
     if (freq >= fl->cfg.radio_min_freq && freq <= fl->cfg.radio_max_freq)
     {
         fl->frequency = freq;
+        // TODO: image calibration
         sx127x_set_frequency(&fl->sx127x, freq, 0);
         return true;
     }
